@@ -119,6 +119,7 @@ void usage(char * binary) {
 
 /**
  * Parses the arguments to a settings struct
+ * C语言竟然还有这样的函数库, get_opt 很高级
  */
 void parse_settings(int argc, char **argv, struct settings *s) {
     int c;
@@ -230,6 +231,7 @@ void print_settings(struct settings *s) {
     fprintf(stderr, "| puts-total: %d\n", s->puts);
     // Gets
     fprintf(stderr, "| gets-total: %d\n", s->gets);
+    // 偏度
     fprintf(stderr, "| get-skewness: %.4lf\n", s->gets_skewness);
     // Ranges
     fprintf(stderr, "| ranges: %d\n", s->ranges);

@@ -12,6 +12,7 @@ OUTFILE = "out"
 PARAMFILE = "params"
 SEPARATOR = "-" * 80
 
+
 def run_test(test_dir):
     cwd = os.getcwd()
     os.chdir(test_dir)
@@ -19,9 +20,10 @@ def run_test(test_dir):
     with open(INFILE, 'r') as infile, open(OUTFILE, 'r') as outfile, TemporaryFile('r') as dump:
         try:
             params = open(PARAMFILE, 'r').read().rstrip().split(' ')
-        except:
+        except Exception as e:
+            print(e)
             params = []
-
+        print([LSM_TREE_EXECUTABLE] + params)
         subprocess.call([LSM_TREE_EXECUTABLE] + params, stdin=infile, stdout=dump)
         dump.seek(0)
 
@@ -44,6 +46,7 @@ def run_test(test_dir):
             print(SEPARATOR)
 
     os.chdir(cwd)
+
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:

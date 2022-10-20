@@ -11,7 +11,7 @@
 import sys
 import time
 import struct
-from blist import sorteddict, sortedlist
+# # 去除了 blist
 
 # ------------------------------------------------
 #                     Stats
@@ -25,8 +25,9 @@ failed_deletes = 0
 loads = 0
 time_elapsed = 0
 
+
 # Logging events
-def log(action, verbose):
+def log(action, _verbose):
     global puts
     global successful_gets
     global failed_gets
@@ -36,7 +37,7 @@ def log(action, verbose):
     global loads
     if action == "PUT":
         puts += 1
-    elif action == "SUCCESFUL_GET":
+    elif action == "SUCCESSFUL_GET":
         successful_gets += 1
     elif action == "FAILED_GET":
         failed_gets += 1
@@ -48,11 +49,12 @@ def log(action, verbose):
         failed_deletes += 1
     elif action == "LOAD":
         loads += 1
-    if verbose:
-        print action
+    if _verbose:
+        print(action)
+
 
 # Printing stats
-def print_stats(time_elapsed):
+def print_stats(_time_elapsed):
     global puts
     global successful_gets
     global failed_gets
@@ -60,16 +62,17 @@ def print_stats(time_elapsed):
     global successful_deletes
     global failed_deletes
     global loads
-    print "------------------------------------"
-    print "PUTS", puts
-    print "SUCCESFUL_GETS", successful_gets
-    print "FAILED_GETS", failed_gets
-    print "RANGES", ranges
-    print "SUCCESSFUL_DELS", successful_deletes
-    print "FAILED_DELS", failed_deletes
-    print "LOADS", loads
-    print "TIME_ELAPSED", time_elapsed
-    print "------------------------------------"
+    print("------------------------------------")
+    print("PUTS", puts)
+    print("SUCCESSFUL_GETS", successful_gets)
+    print("FAILED_GETS", failed_gets)
+    print("RANGES", ranges)
+    print("SUCCESSFUL_DELS", successful_deletes)
+    print("FAILED_DELS", failed_deletes)
+    print("LOADS", loads)
+    print("TIME_ELAPSED", _time_elapsed)
+    print("------------------------------------")
+
 
 # ------------------------------------------------
 #                   Main function
@@ -80,7 +83,7 @@ if __name__ == "__main__":
     show_output = False
 
     # Initialize sorted dictionary (key value store)
-    db = sorteddict({})
+    db = dict()
 
     # Open file
     f = open(sys.argv[1])
@@ -100,21 +103,21 @@ if __name__ == "__main__":
                 try:
                     val = db[key]
                     if show_output:
-                        print val
-                    log("SUCCESFUL_GET", verbose)
-                except:
+                        print(val)
+                    log("SUCCESSFUL_GET", verbose)
+                except Exception as e:
                     if show_output:
-                        print ""
+                        print(e)
                     log("FAILED_GET", verbose)
             # RANGE
             if line[0] == "r":
                 (range_start, range_end) = map(int, line.split(" ")[1:3])
-                sorted_keys = sortedlist(db.keys())
+                sorted_keys = list(sorted(db.keys()))
                 valid_keys = sorted_keys[range_start:range_end]
                 valid_vals = map(lambda x: db[x], valid_keys)
                 res = zip(valid_keys, valid_vals)
                 if show_output:
-                    print " ".join(map(lambda x: str(x[0])+":"+str(x[1]), res))
+                    print(" ".join(map(lambda x: str(x[0]) + ":" + str(x[1]), res)))
                 log("RANGE", verbose)
             # DELETE
             if line[0] == "d":
@@ -122,7 +125,8 @@ if __name__ == "__main__":
                 try:
                     del db[key]
                     log("SUCCESSFUL_DELETE", verbose)
-                except:
+                except Exception as e:
+                    print("exception: ", e)
                     log("FAILED_DELETE", verbose)
                     pass
             # LOAD
@@ -132,16 +136,18 @@ if __name__ == "__main__":
                 with open(filename, "rb") as f:
                     while True:
                         buf = f.read(4)
-                        if not buf: break
+                        if not buf:
+                            break
                         key = struct.unpack('i', buf)
                         buf = f.read(4)
-                        if not buf: break
+                        if not buf:
+                            break
                         val = struct.unpack('i', buf)
                         db[key[0]] = val[0]
                         log("PUT", verbose)
     # Done
     end = time.time()
-    time_elapsed = (end-start)
+    time_elapsed = (end - start)
 
     # Print stats
     if not verbose:

@@ -6,6 +6,7 @@ import time
 ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
 LSM_TREE_EXECUTABLE = os.path.join(ROOT_DIR, "bin", "lsm")
 
+
 def profile(args_file):
     with open(os.path.join(os.getcwd(), args_file), "r") as args_list:
         for args in args_list:
@@ -20,6 +21,7 @@ def profile(args_file):
 
             # Reset STDIN so the next call reads the same workload
             sys.stdin.seek(0)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

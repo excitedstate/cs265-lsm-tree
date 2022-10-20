@@ -5,13 +5,22 @@
 
 using namespace std;
 
+/**
+ * 可以看做 一个 run 的迭代器
+ */
 struct merge_entry {
-    int precedence;
-    entry_t *entries;
-    long num_entries;
-    int current_index = 0;
+    int precedence;         // 优先级, 优先权
+    entry_t *entries;       // 键值对数据
+    long num_entries;       // 键值对长度
+    int current_index = 0;  // 当前位置
     entry_t head(void) const {return entries[current_index];}
     bool done(void) const {return current_index == num_entries;}
+    /**
+     * 比较函数: 首先: 为 head()方法的返回值，即entries[current_index]
+     * 当head()方法返回值相同时, 按precedence排序
+     * @param other
+     * @return
+     */
     bool operator>(const merge_entry& other) const {
         // Order first by keys, then by precedence
         if (head() == other.head()) {

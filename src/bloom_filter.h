@@ -2,7 +2,7 @@
 #include <bitset>
 
 #include "types.h"
-
+// BloomFilter
 class BloomFilter {
    boost::dynamic_bitset<> table;
    uint64_t hash_1(KEY_t) const;

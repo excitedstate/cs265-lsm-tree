@@ -4,6 +4,7 @@
 
 class Level {
 public:
+    // 一个Level包含多个runs
     int max_runs;
     long max_run_size;
     std::deque<Run> runs;

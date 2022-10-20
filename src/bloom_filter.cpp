@@ -4,7 +4,7 @@
  * Hash functions taken from https://gist.github.com/badboy/6267743
  * and modified for the C++ environment.
  */
-
+// 简单的一个bloom_filter
 uint64_t BloomFilter::hash_1(KEY_t k) const {
     uint64_t key;
 

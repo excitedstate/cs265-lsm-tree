@@ -23,11 +23,15 @@ entry_t MergeContext::next(void) {
 
     // Only release the most recent value for a given key
     while (next.head().key == current.head().key && !queue.empty()) {
+        // 先pop出来, 因为存的是元素，不是指针, 因此要采用这种方法
         queue.pop();
 
+        // 修改next.current, 因为当前位置的元素将要被添加到合并后的run中
         next.current_index++;
+        // 如果序列中还有元素, 再push进去
         if (!next.done()) queue.push(next);
 
+        // 重新比较, 获取优先级最高的元素.
         next = queue.top();
     }
 

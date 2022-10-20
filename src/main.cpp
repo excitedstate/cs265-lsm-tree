@@ -5,7 +5,7 @@
 #include "unistd.h"
 
 using namespace std;
-
+// console
 void command_loop(LSMTree& tree) {
     char command;
     KEY_t key_a, key_b;

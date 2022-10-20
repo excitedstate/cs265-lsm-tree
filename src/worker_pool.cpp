@@ -20,6 +20,7 @@ void WorkerPool::wait_all(void) {
 
 void DynamicWorkerPool::launch(worker_task& task) {
     for (int i = 0; i < workers.size(); i++) {
+        // 直接调用拷贝构造函数, 减少了临时变量的创建(相比于push_back)
         workers.emplace_back(task);
     }
 }

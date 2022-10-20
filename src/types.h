@@ -10,7 +10,7 @@ typedef int32_t VAL_t;
 #define VAL_MAX 2147483647
 #define VAL_MIN -2147483647
 #define VAL_TOMBSTONE -2147483648
-
+// Entry 条目的定义
 struct entry {
     KEY_t key;
     VAL_t val;
